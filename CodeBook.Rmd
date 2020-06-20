@@ -1,0 +1,90 @@
+---
+title: "run_analysis.R script CodeBook"
+author: "Mostafa Fawzy"
+date: "6/20/2020"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+# CodeBook for run_analysis.R script that performs data preperation and analysis.
+
+#The dataset examined has the following dimensions:
+
+    Number of observations > 180
+    Number of variables > 88
+
+1. Downloading the data set.
+    Data set was downloaded and extracted from file names "UCI HAR Dataset" 
+    
+2. Assigning the variables:
+       A. Activity <- was extracted from to Path "UCI HAR Dataset//activity_labels.txt" with 2 columns "serial" and "activity".
+           sample size of 6 rows, 2 columns, Missing values = 0%
+           # Observed factor levels: "LAYING", "SITTING", "STANDING", "WALKING", "WALKING_DOWNSTAIRS", "WALKING_UPSTAIRS".
+       
+       B. features <- was extracted from to path "UCI HAR Dataset//features.txt" with 2 columns "serial" and "function".
+            sample size of 561 rows, 2 columns, Missing Values = 0%
+            # The features was selected to this data set based on the data of accelerometer and gyroscope signals.
+            
+       C. test <- was extracted from path "UCI HAR Dataset//test//subject_test.txt" with one column "subject".
+            Sample size of 2947 rows, 1 column, Missing values = 0%
+            # Date of the tests performed
+            
+       D. X_test <- was exracted from path "UCI HAR Dataset//test//X_test.txt" 
+            Sample size of 2947 rows, 561 columns from the function rows of features, Missing values = 0%
+            # has recorded tests data 
+            
+       E. y_test <- was extracted from path "UCI HAR Dataset//test//y_test.txt" with one column "code".
+            Sample size of 2947 rows, 1 column, Missing values = 0%
+            # has recorded tests data with lables
+            
+       F. train <- was extracted from path "UCI HAR Dataset//train//subject_train.txt" with one coumn "subject".
+            Sample size of 7352 rows, 1 column, Missing values = 0%
+            # has the train data observed.
+            
+       G. X_train <- was extracted from path "UCI HAR Dataset//train//X_train.txt"
+            Sample size of 7352 rows, 561 columns from the function rows of features, Missing values = 0%
+            # has recorded train data.
+            
+       H. y_train <- was extracted from path "UCI HAR Dataset//train//y_train.txt" with one column "code"
+            sample size of 7352 rows, 1 coumn, Missing values = 0%
+            # has recorded trains data with lables.
+            
+3. Merging the data seta:
+
+      A. X_test <- was merged with X_train to create x 
+      B. y_test <- was merged with y_train to create y
+      c. test <- was meged with train to create subject 
+      D. data_merged <- was created by merging > cbind(subject,x,y)
+      
+4. subset the mean and Standard diviation data:
+
+      A. mean_data <- was created by selecting (subject, code and only columns that contains "mean" & "std") from data_merged
+      
+5. rename the activities with descriptive names:
+
+      A. replacing numbers in coulmn code with data of activities names extracted from the second column of activities.
+      
+6. renaming all labels to a descriptive names:
+
+      A. 2nd column of mean data was names "activity"
+      B. "Acc" to "Accelerometer"in column name
+      C. "Gyro" to"Gyroscope" 
+      D. "BodyBody" to "Body"
+      E. "Mag" to "Magnitude"
+      F. all starts with character "t" to "Time"
+      G. all starts with character "f" to Frequency"
+      H. "tBody" to "TimeBody"
+      I. "-mean()" to "Mean"
+      J. "-std()" to "STD"
+      K. "-freq()" to "Frequency"
+      L. "angle" to "Angle"
+      M. "gravity" to "Gravity"
+
+7. Creating a second independent data set with the average of each variable for each activity and eacg subject 
+  
+      A. new_data was created by summarizing mean_data grouped by subject and activity.
+      B. export new_data to "newdata.txt"
+    
+  
